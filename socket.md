@@ -12,14 +12,14 @@ s = socket.socket()
 s.bind((HOST,PORT))
 s.listen(1)
 
-conn,addr = s.accept()
-
 while True:
-    print('Connected by',addr)
-    data = conn.recv(1024)
-    if not data:break
-    conn.sendall(data.upper())
-    print('Received :',data)
+    conn,addr = s.accept()
+    while Ture:
+        print('Connected by',addr)
+        data = conn.recv(1024)
+        if not data:break
+        conn.sendall(data.upper())
+        print('Received :',data)
 conn.close()
 
 ```
@@ -46,4 +46,26 @@ while True:
     data = c.recv(1024)
     print('Received',repr(data))
 c.close()
+```
+### socket多线程
+```
+#!/usr/bin/python3
+# coding: utf-8
+
+import socketserver
+
+class Mysocketserver(socketserver.BaseRequestHandler):
+    def handle(self):
+        print('Got a new conn from',self.client_address)
+        while True:
+            data = self.request.recv(1024)
+            if not data:break
+            print('recv:',data)
+            self.request.send(data.upper())
+
+if __name__ == '__main__':
+    HOST = '0.0.0.0'
+    PORT = 9001
+    s = socketserver.ThreadingTCPServer((HOST,PORT),Mysocketserver)
+    s.serve_forever()
 ```
