@@ -69,7 +69,7 @@ import os,sys
 host = sys.argv[1]
 port = 22
 user = 'root'
-password = 'jianwei.com'
+password = '*******'
 #pkey_file = '/home/luojianwei/.ssh/id_rsa'
 #key = paramiko.RSAKey.from_private_key_file(pkey_file)
 t = paramiko.Transport(host,port)
@@ -78,7 +78,7 @@ t.connect(username=user,password=password)
 sftp = paramiko.SFTPClient.from_transport(t)
 # 获取远程主机文件
 sftp.get('/tmp/socket_server.py','/tmp/test.py')
-# 拷贝本地文件到远程主角
+# 拷贝本地文件到远程主机
 sftp.put('/tmp/123.txt','/tmp/test.txt')
 t.close()
 ```
